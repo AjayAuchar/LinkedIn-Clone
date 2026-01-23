@@ -6,7 +6,8 @@ import User from "../models/userModel.js";
 export const sendConnectionRequest = async (req, res) => {
   try {
     const { userId } = req.params;
-    const senderId = req.userId;
+
+    const senderId = req.user._id;
 
     if (senderId.toString() === userId) {
       return res
@@ -14,11 +15,11 @@ export const sendConnectionRequest = async (req, res) => {
         .json({ message: "You can't send a request to yourself" });
     }
 
-    if (req.user.connnections.includes(userId)) {
+    if (req?.user?.connnections?.includes(userId)) {
       return res.status(400).json({ message: "You are already connected" });
     }
 
-    const existingRequest = await connectionRequest.findOne({
+    const existingRequest = await ConnectionRequest.findOne({
       sender: senderId,
       recipient: userId,
       status: "pending",
@@ -30,7 +31,7 @@ export const sendConnectionRequest = async (req, res) => {
         .json({ message: "You have already sent a request to this user" });
     }
 
-    const newRequest = new connectionRequest({
+    const newRequest = new ConnectionRequest({
       sender: senderId,
       recipient: userId,
     });
