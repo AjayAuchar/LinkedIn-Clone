@@ -9,6 +9,10 @@ import notificationRoutes from "./routes/notificationRoutes.js";
 import connectionRoutes from "./routes/connectionRoutes.js";
 import cors from "cors";
 dotenv.config();
+import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -35,6 +39,6 @@ app.listen(PORT, () => {
 
 // Serve frontend (React built with Vite)
 app.use(express.static(path.join(__dirname, "../Frontend/dist")));
-app.get("*", (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, "../Frontend/dist/index.html"));
 });
