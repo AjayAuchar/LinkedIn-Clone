@@ -32,3 +32,9 @@ app.listen(PORT, () => {
   console.log(`server is running on port ${PORT}`);
   connectDB();
 });
+
+// Serve frontend (React built with Vite)
+app.use(express.static(path.join(__dirname, "../Frontend/dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../Frontend/dist/index.html"));
+});
