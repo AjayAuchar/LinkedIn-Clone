@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: true,
     credentials: true,
   }),
 );
@@ -32,13 +32,14 @@ app.use("/api/v1/posts", postRoutes);
 app.use("/api/v1/notifications", notificationRoutes);
 app.use("/api/v1/connections", connectionRoutes);
 
+// Serve frontend (React built with Vite)
+app.use(express.static(path.join(__dirname, "../Frontend/dist")));
+
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, "../Frontend/dist/index.html"));
+});
+
 app.listen(PORT, () => {
   console.log(`server is running on port ${PORT}`);
   connectDB();
-});
-
-// Serve frontend (React built with Vite)
-app.use(express.static(path.join(__dirname, "../Frontend/dist")));
-app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "../Frontend/dist/index.html"));
 });
