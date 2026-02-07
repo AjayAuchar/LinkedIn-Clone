@@ -8,24 +8,28 @@ import postRoutes from "./routes/postRoutes.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
 import connectionRoutes from "./routes/connectionRoutes.js";
 import cors from "cors";
-dotenv.config();
 import path from "path";
 import { fileURLToPath } from "url";
+
+dotenv.config();
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+/* ---------------- MIDDLEWARE ---------------- */
 app.use(
   cors({
     origin: true,
     credentials: true,
   }),
 );
-app.use(express.json({ limit: "5mb" })); // parse JSON request bodies (handle large img)
+app.use(express.json({ limit: "5mb" }));
 app.use(cookieParser());
 
+/* ---------------- API ROUTES ---------------- */
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/posts", postRoutes);
@@ -34,12 +38,12 @@ app.use("/api/v1/connections", connectionRoutes);
 
 // Serve frontend (React built with Vite)
 app.use(express.static(path.join(__dirname, "../Frontend/dist")));
-
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, "../Frontend/dist/index.html"));
 });
 
+/* ---------------- SERVER ---------------- */
 app.listen(PORT, () => {
-  console.log(`server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
   connectDB();
 });

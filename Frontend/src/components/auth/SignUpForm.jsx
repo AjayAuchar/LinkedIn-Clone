@@ -33,8 +33,8 @@ const SignUpForm = () => {
       checkAuthUser(dispatch);
       navigate("/");
     } catch (error) {
-      toast.error(error.response.data.message || "Something went wrong.");
-      console.log(error.response.data.message, "error ");
+      toast.error(error?.response?.data?.message || "Something went wrong.");
+      console.log(error?.response?.data?.message, "error ");
     }
   };
 

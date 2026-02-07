@@ -21,7 +21,8 @@ const HomePage = () => {
   const getRecommendedUsers = async () => {
     try {
       const postRes = await axiosInstance.get("/users/suggestions");
-      dispatch(setRecommendedUserData(postRes.data));
+
+      dispatch(setRecommendedUserData(postRes?.data));
     } catch (error) {
       console.log(error);
     }

@@ -25,7 +25,7 @@ export const getSuggestedConnections = async (req, res) => {
 export const getPublicProfile = async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username }).select(
-      "-password"
+      "-password",
     );
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -72,7 +72,7 @@ export const updateProfile = async (req, res) => {
     const user = await User.findByIdAndUpdate(
       req.user._id,
       { $set: updatedData },
-      { new: true }
+      { new: true },
     ).select("-password");
     res.json(user);
   } catch (error) {

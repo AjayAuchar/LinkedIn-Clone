@@ -12,7 +12,7 @@ const RecommendedUser = ({ user }) => {
   const connectionStatus = async () => {
     try {
       const statusRes = await axiosInstance.get(
-        `/connections/status/${user._id}`,
+        `/connections/status/${user?._id}`,
       );
       setRequestStatus(statusRes);
     } catch (error) {
@@ -23,12 +23,12 @@ const RecommendedUser = ({ user }) => {
   const sendConnectionRequest = async () => {
     try {
       const conReq = await axiosInstance.post(
-        `/connections/request/${user._id}`,
+        `/connections/request/${user?._id}`,
       );
       toast.success("Connection request sent successfully");
       connectionStatus();
     } catch (error) {
-      toast.error(error.response?.data?.error || "An error occurred");
+      toast.error(error?.response?.data?.error || "An error occurred");
     }
   };
 
@@ -40,7 +40,7 @@ const RecommendedUser = ({ user }) => {
       toast.success("Connection request accepted");
       connectionStatus();
     } catch (error) {
-      toast.error(error.response?.data?.error || "An error occurred");
+      toast.error(error?.response?.data?.error || "An error occurred");
     }
   };
 
@@ -52,7 +52,7 @@ const RecommendedUser = ({ user }) => {
       toast.success("Connection request rejected");
       connectionStatus();
     } catch (error) {
-      toast.error(error.response?.data?.error || "An error occurred");
+      toast.error(error?.response?.data?.error || "An error occurred");
     }
   };
 
@@ -72,13 +72,13 @@ const RecommendedUser = ({ user }) => {
         return (
           <div className="flex gap-2 justify-center">
             <button
-              onClick={() => acceptRequest(requestStatus.data.requestId)}
+              onClick={() => acceptRequest(requestStatus?.data?.requestId)}
               className={`rounded-full p-1 flex items-center justify-center bg-green-500 hover:bg-green-600 text-white cursor-pointer`}
             >
               <Check size={16} />
             </button>
             <button
-              onClick={() => rejectRequest(requestStatus.data.requestId)}
+              onClick={() => rejectRequest(requestStatus?.data?.requestId)}
               className={`rounded-full p-1 flex items-center justify-center bg-red-500 hover:bg-red-600 text-white cursor-pointer`}
             >
               <X size={16} />
@@ -121,17 +121,17 @@ const RecommendedUser = ({ user }) => {
   return (
     <div className="flex items-center justify-between mb-4">
       <Link
-        to={`/profile/${user.username}`}
+        to={`/profile/${user?.username}`}
         className="flex items-center flex-grow"
       >
         <img
-          src={user.profilePicture || "/avatar.png"}
-          alt={user.name}
+          src={user?.profilePicture || "/avatar.png"}
+          alt={user?.name}
           className="w-12 h-12 rounded-full mr-3"
         />
         <div>
-          <h3 className="font-semibold text-sm">{user.name}</h3>
-          <p className="text-xs text-info">{user.headline}</p>
+          <h3 className="font-semibold text-sm">{user?.name}</h3>
+          <p className="text-xs text-info">{user?.headline}</p>
         </div>
       </Link>
       {renderButton()}

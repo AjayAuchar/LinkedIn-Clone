@@ -22,7 +22,7 @@ const checkAuthUser = async (dispatch) => {
 const getPosts = async (dispatch) => {
   try {
     const postRes = await axiosInstance.get("/posts");
-    dispatch(setPost(postRes.data));
+    dispatch(setPost([...postRes.data]));
   } catch (error) {
     console.log(error);
   }
