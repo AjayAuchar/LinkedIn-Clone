@@ -1,5 +1,9 @@
 import { axiosInstance } from "./axios";
-import { setAuthUser } from "../globalSlice";
+import {
+  setAuthUser,
+  setConnectionRequests,
+  setNotifications,
+} from "../globalSlice";
 import { setPost } from "../globalSlice";
 
 const checkAuthUser = async (dispatch) => {
@@ -28,4 +32,25 @@ const getPosts = async (dispatch) => {
   }
 };
 
-export { checkAuthUser, getPosts };
+const getConnectionRequests = async (dispatch) => {
+  try {
+    const connectionRes = await axiosInstance.get("/connections/requests");
+    console.log(connectionRes, "connectionRes");
+    dispatch(setConnectionRequests(connectionRes?.data));
+  } catch (error) {
+    console.log(`Error fetching getConnectionRequests: ${error}`);
+  }
+};
+
+const getNotifications = async (dispatch) => {
+  // if (authUser) {
+  try {
+    const postRes = await axiosInstance.get("/notifications");
+    dispatch(setNotifications(postRes));
+  } catch (error) {
+    console.log(`Error fetching getNotifications: ${error}`);
+  }
+  // }
+};
+
+export { checkAuthUser, getPosts, getConnectionRequests, getNotifications };

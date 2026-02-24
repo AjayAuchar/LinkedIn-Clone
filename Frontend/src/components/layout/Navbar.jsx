@@ -3,40 +3,22 @@ import { axiosInstance } from "../../utils/axios";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Bell, Home, LogOut, User, Users } from "lucide-react";
-import { checkAuthUser } from "../../utils/helper";
+import {
+  checkAuthUser,
+  getConnectionRequests,
+  getNotifications,
+} from "../../utils/helper";
 import toast from "react-hot-toast";
 
 const Navbar = () => {
   const authUser = useSelector((state) => state.globalData.authUser);
+  const notifications = useSelector((state) => state.globalData.notifications);
+  const connectionRequests = useSelector(
+    (state) => state.globalData.connectionRequests,
+  );
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [notifications, setNotifications] = useState([]);
-  const [connectionRequests, setConnectionRequests] = useState([]);
-
-  const getNotifications = async () => {
-    if (authUser) {
-      try {
-        const response = await axiosInstance.get("/notifications");
-        // console.log(response);
-        setNotifications(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
-  const getConnectionRequests = async () => {
-    if (authUser) {
-      try {
-        const response = await axiosInstance.get("/connections/requests");
-        // console.log(response.data);
-        setConnectionRequests(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
 
   const logout = async () => {
     try {
@@ -54,14 +36,15 @@ const Navbar = () => {
   const unreadNotificationCount = notifications?.data?.filter(
     (notif) => !notif.read,
   ).length;
-  const unreadConnectionRequestsCount = connectionRequests?.data?.length;
+
+  const unreadConnectionRequestsCount = connectionRequests?.length;
 
   useEffect(() => {
     if (!authUser) return;
 
     const fetchData = async () => {
-      await getNotifications();
-      await getConnectionRequests();
+      await getNotifications(dispatch);
+      await getConnectionRequests(dispatch);
     };
 
     fetchData();

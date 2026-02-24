@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 const globalSlice = createSlice({
   name: "globalData",
   initialState: {
     authUser: null,
     posts: [],
     recommendedUserData: [],
+    notifications: [],
+    connectionRequests: [],
   },
   reducers: {
     setAuthUser: (state, action) => {
@@ -20,9 +21,21 @@ const globalSlice = createSlice({
     setRecommendedUserData: (state, action) => {
       state.recommendedUserData = action.payload;
     },
+    setNotifications: (state, action) => {
+      state.notifications = action.payload;
+    },
+    setConnectionRequests: (state, action) => {
+      state.connectionRequests = action.payload;
+    },
   },
 });
 
-export const { setAuthUser, clearAuthUser, setRecommendedUserData, setPost } =
-  globalSlice.actions;
+export const {
+  setAuthUser,
+  clearAuthUser,
+  setRecommendedUserData,
+  setNotifications,
+  setPost,
+  setConnectionRequests,
+} = globalSlice.actions;
 export default globalSlice.reducer;

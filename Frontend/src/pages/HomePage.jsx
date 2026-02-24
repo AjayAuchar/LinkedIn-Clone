@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { Users } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import Sidebar from "../../components/Sidebar";
-import { axiosInstance } from "../../utils/axios";
-import { getPosts } from "../../utils/helper";
-import PostCreation from "../../components/PostCreation";
-import RecommendedUser from "../../components/RecommendedUser";
-import { setRecommendedUserData } from "../../globalSlice";
-import Post from "../../components/Post";
+import Sidebar from "../components/Sidebar";
+import { axiosInstance } from "../utils/axios";
+import { getPosts } from "../utils/helper";
+import PostCreation from "../components/PostCreation";
+import RecommendedUser from "../components/RecommendedUser";
+import { setRecommendedUserData } from "../globalSlice";
+import Post from "../components/Post";
 
 const HomePage = () => {
   const dispatch = useDispatch();
